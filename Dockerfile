@@ -13,6 +13,7 @@ ENV RADSECPROXY_DIR=/etc/radsecproxy
 RUN apk update && \
     apk add --no-cache \
         openssl \
+        ca-certificates \
         radsecproxy \
         gettext \
         bind-tools \
@@ -34,6 +35,15 @@ RUN  mkdir -p /etc/pki/cacerts_temp && \
 # Move only valid certificate files to the actual cacerts directory, ignoring empty files
 RUN find /etc/pki/cacerts_temp -type f -size +0 -exec mv {} /etc/pki/cacerts/ \; && \
     rm -rf /etc/pki/cacerts_temp
+
+# Copy the CA certificates to the trusted root folder
+COPY pki/ /usr/local/share/ca-certificates/
+COPY pki/ /etc/ssl/certs/
+
+# Update the trusted root certificates
+RUN cp -r /etc/pki/ /usr/local/share/ca-certificates/ && \
+    cp -r /etc/pki/ /etc/ssl/certs/ && \
+    update-ca-certificates --fresh
 
 # Copy the entrypoint script into the container
 COPY entrypoint.sh /
