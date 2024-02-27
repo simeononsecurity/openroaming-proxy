@@ -61,7 +61,7 @@ server orion-server2 {
 server tmobile-server {
     type tls
     tls OR-certs-anp
-    secret radsec
+    secret secret
     certificateNameCheck off
     host aaa.geo.t-mobile.com:2083
 }
@@ -69,9 +69,6 @@ server tmobile-server {
 ######
 ######
 realm ".*\.orion\.area120\.com" {
-    type tls
-    tls OR-certs-anp
-    secret radsec
     server orion-server1
     server orion-server2
     accountingServer orion-server1
@@ -80,25 +77,16 @@ realm ".*\.orion\.area120\.com" {
 ######
 ######
 realm ".*\wlan\.mnc240\.mcc310\.3gppnetwork\.org" {
-    type tls
-    tls OR-certs-anp
-    secret secret
     server tmobile-server
     accountingServer tmobile-server
 }
 
 realm ".*\wlan\.mnc260\.mcc310\.3gppnetwork\.org" {
-    type tls
-    tls OR-certs-anp
-    secret secret
     server tmobile-server
     accountingServer tmobile-server
 }
 
 realm ".*\wlan\.mnc210\.mcc310\.3gppnetwork\.org" {
-    type tls
-    tls OR-certs-anp
-    secret secret
     server tmobile-server
     accountingServer tmobile-server
 }
