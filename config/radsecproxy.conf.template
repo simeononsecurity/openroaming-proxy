@@ -5,25 +5,6 @@ LogLevel		5
 LogDestination file:///dev/stdout
 
 ######
-
-tls OR-certs-anp {
-    CACertificatePath ${PKI_DIR}/
-    CACertificateFile ${PKI_DIR}/ca.crt
-    CertificateFile   ${PKI_DIR}/client.chain.crt
-    CertificateKeyFile ${PKI_DIR}/client.key
-    TLSVersion TLS1_2:
-}
-
-server OR-dynamic {
-    type tls
-    tls OR-certs-anp
-    secret radsec
-    certificateNameCheck off
-    dynamicLookupCommand ${RADSECPROXY_DIR}/naptr-openroaming.sh
-}
-
-######
-######
 #tls OR-certs-orion {
 #    CACertificatePath ${PKI_DIR}/
 #    CACertificateFile ${PKI_DIR}/orion-ca.crt
@@ -48,8 +29,16 @@ server orion-server2 {
     host 216.239.34.91:2083
 }
 
+realm ".*\.orion\.area120\.com" {
+    server orion-server1
+    server orion-server2
+    accountingServer orion-server1
+    accountingServer orion-server2
+}
+
 ######
 ######
+
 #tls certs-tmobile {
 #    CACertificatePath ${PKI_DIR}/
 #    CACertificateFile ${PKI_DIR}/tmobile-ca.crt
@@ -66,16 +55,6 @@ server tmobile-server {
     host aaa.geo.t-mobile.com:2083
 }
 
-######
-######
-realm ".*\.orion\.area120\.com" {
-    server orion-server1
-    server orion-server2
-    accountingServer orion-server1
-    accountingServer orion-server2
-}
-######
-######
 realm ".*\wlan\.mnc240\.mcc310\.3gppnetwork\.org" {
     server tmobile-server
     accountingServer tmobile-server
@@ -90,12 +69,31 @@ realm ".*\wlan\.mnc210\.mcc310\.3gppnetwork\.org" {
     server tmobile-server
     accountingServer tmobile-server
 }
+
 ######
 ######
+
+tls OR-certs-anp {
+    #CACertificatePath ${PKI_DIR}/
+    CACertificateFile ${PKI_DIR}/ca.crt
+    CertificateFile   ${PKI_DIR}/client.chain.crt
+    CertificateKeyFile ${PKI_DIR}/client.key
+    TLSVersion TLS1_2:
+}
+
+server OR-dynamic {
+    type tls
+    tls OR-certs-anp
+    secret radsec
+    certificateNameCheck off
+    dynamicLookupCommand ${RADSECPROXY_DIR}/naptr-openroaming.sh
+}
+
 realm * { 
     server OR-dynamic
     accountingServer OR-dynamic
 } 
+
 ######
 client 0.0.0.0/0 {
     type udp
