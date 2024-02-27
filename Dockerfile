@@ -26,7 +26,8 @@ COPY pki/ $PKI_DIR/
 COPY config/ $RADSECPROXY_DIR/
 
 # Fetch certificates and split each into its own file
-RUN openssl s_client -connect 216.239.34.91:2083 -showcerts </dev/null | awk '/BEGIN CERTIFICATE/{flag=1;c++} flag {print > "/etc/pki/cacerts_temp/orion1_" c ".pem"} /END CERTIFICATE/{flag=0}' && \
+RUN  mkdir -p /etc/pki/cacerts_temp && \
+    openssl s_client -connect 216.239.34.91:2083 -showcerts </dev/null | awk '/BEGIN CERTIFICATE/{flag=1;c++} flag {print > "/etc/pki/cacerts_temp/orion1_" c ".pem"} /END CERTIFICATE/{flag=0}' && \
     openssl s_client -connect 216.239.32.91:2083 -showcerts </dev/null | awk '/BEGIN CERTIFICATE/{flag=1;c++} flag {print > "/etc/pki/cacerts_temp/orion2_" c ".pem"} /END CERTIFICATE/{flag=0}' && \
     openssl s_client -connect aaa.geo.t-mobile.com:2083 -showcerts </dev/null | awk '/BEGIN CERTIFICATE/{flag=1;c++} flag {print > "/etc/pki/cacerts_temp/tmobile_" c ".pem"} /END CERTIFICATE/{flag=0}'
 
