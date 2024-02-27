@@ -7,8 +7,8 @@ LogDestination file:///dev/stdout
 ######
 
 tls OR-certs-anp {
-    #CACertificatePath ${PKI_DIR}/
-    CACertificateFile ${PKI_DIR}/ca.crt
+    CACertificatePath ${PKI_DIR}/
+    #CACertificateFile ${PKI_DIR}/ca.crt
     CertificateFile   ${PKI_DIR}/client.chain.crt
     CertificateKeyFile ${PKI_DIR}/client.key
     TLSVersion TLS1_2:
