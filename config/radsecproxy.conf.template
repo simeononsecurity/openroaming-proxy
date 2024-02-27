@@ -88,7 +88,7 @@ accountingServer tmobile-accounting-server {
 }
 ######
 ######
-realm "@.*\.orion\.area120\.com" {
+realm ".*\.orion\.area120\.com" {
     type tls
     tls OR-certs-anp
     secret radsec
@@ -99,7 +99,7 @@ realm "@.*\.orion\.area120\.com" {
 }
 ######
 ######
-realm "@.*\wlan\.mnc240\.mcc310\.3gppnetwork\.org" {
+realm ".*\wlan\.mnc240\.mcc310\.3gppnetwork\.org" {
     type tls
     tls OR-certs-anp
     secret secret
@@ -107,7 +107,7 @@ realm "@.*\wlan\.mnc240\.mcc310\.3gppnetwork\.org" {
     accountingServer tmobile-accounting-server
 }
 
-realm "@.*\wlan\.mnc260\.mcc310\.3gppnetwork\.org" {
+realm ".*\wlan\.mnc260\.mcc310\.3gppnetwork\.org" {
     type tls
     tls OR-certs-anp
     secret secret
@@ -115,7 +115,7 @@ realm "@.*\wlan\.mnc260\.mcc310\.3gppnetwork\.org" {
     accountingServer tmobile-accounting-server
 }
 
-realm "@.*\wlan\.mnc210\.mcc310\.3gppnetwork\.org" {
+realm ".*\wlan\.mnc210\.mcc310\.3gppnetwork\.org" {
     type tls
     tls OR-certs-anp
     secret secret
