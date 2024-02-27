@@ -35,6 +35,39 @@ realm "*.orion.area120.com" {
     }
 }
 
+realm "wlan.mnc240.mcc310.3gppnetwork.org" {
+    type tls
+    tls OR-certs-anp
+    secret secret
+    server {
+        name tmobile_server
+        host aaa.geo.t-mobile.com:2083
+        type tls
+    }
+}
+
+realm "wlan.mnc260.mcc310.3gppnetwork.org" {
+    type tls
+    tls OR-certs-anp
+    secret secret
+    server {
+        name tmobile_server
+        host aaa.geo.t-mobile.com:2083
+        type tls
+    }
+}
+
+realm "wlan.mnc210.mcc310.3gppnetwork.org" {
+    type tls
+    tls OR-certs-anp
+    secret secret
+    server {
+        name tmobile_server
+        host aaa.geo.t-mobile.com:2083
+        type tls
+    }
+}
+
 realm * { 
     server OR-dynamic
     accountingServer OR-dynamic
