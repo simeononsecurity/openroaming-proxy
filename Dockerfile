@@ -33,8 +33,7 @@ RUN  mkdir -p /etc/pki/cacerts_temp && \
 
 # Move only valid certificate files to the actual cacerts directory, ignoring empty files
 RUN find /etc/pki/cacerts_temp -type f -size +0 -exec mv {} /etc/pki/cacerts/ \; && \
-    rm -rf /etc/pki/cacerts_temp && \
-    c_rehash /etc/pki/cacerts/
+    rm -rf /etc/pki/cacerts_temp
 
 # Copy the entrypoint script into the container
 COPY entrypoint.sh /
