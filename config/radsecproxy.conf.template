@@ -19,53 +19,87 @@ server OR-dynamic {
     dynamicLookupCommand ${RADSECPROXY_DIR}/naptr-openroaming.sh
 }
 
-realm "*.orion.area120.com" {
+server orion-server1 {
     type tls
     tls OR-certs-anp
     secret radsec
-    server {
-        name server1
-        host 216.239.32.91:2083
-        type tls
-    }
-    server {
-        name server2
-        host 216.239.34.91:2083
-        type tls
-    }
+    certificateNameCheck off
+    host 216.239.32.91:2083
 }
 
-realm "wlan.mnc240.mcc310.3gppnetwork.org" {
+accountingServer orion-accounting-server1 {
+    type tls
+    tls OR-certs-anp
+    secret radsec
+    certificateNameCheck off
+    host 216.239.32.91:2083
+}
+
+server orion-server2 {
+    type tls
+    tls OR-certs-anp
+    secret radsec
+    certificateNameCheck off
+    host 216.239.34.91:2083
+}
+
+accountingServer orion-accounting-server2 {
+    type tls
+    tls OR-certs-anp
+    secret radsec
+    certificateNameCheck off
+    host 216.239.34.91:2083
+}
+
+server tmobile-server {
+    type tls
+    tls OR-certs-anp
+    secret radsec
+    certificateNameCheck off
+    host aaa.geo.t-mobile.com:2083
+}
+
+accountingServer tmobile-accounting-server {
+    type tls
+    tls OR-certs-anp
+    secret radsec
+    certificateNameCheck off
+    host aaa.geo.t-mobile.com:2083
+}
+
+
+realm "@.*\.orion\.area120\.com" {
+    type tls
+    tls OR-certs-anp
+    secret radsec
+    server orion-server1
+    server orion-server2
+    accountingServer orion-accounting-server1
+    accountingServer orion-accounting-server2
+}
+
+realm "@.*\wlan\.mnc240\.mcc310\.3gppnetwork\.org" {
     type tls
     tls OR-certs-anp
     secret secret
-    server {
-        name tmobile_server
-        host aaa.geo.t-mobile.com:2083
-        type tls
-    }
+    server tmobile-server
+    accountingServer tmobile-accounting-server
 }
 
-realm "wlan.mnc260.mcc310.3gppnetwork.org" {
+realm "@.*\wlan\.mnc260\.mcc310\.3gppnetwork\.org" {
     type tls
     tls OR-certs-anp
     secret secret
-    server {
-        name tmobile_server
-        host aaa.geo.t-mobile.com:2083
-        type tls
-    }
+    server tmobile-server
+    accountingServer tmobile-accounting-server
 }
 
-realm "wlan.mnc210.mcc310.3gppnetwork.org" {
+realm "@.*\wlan\.mnc210\.mcc310\.3gppnetwork\.org" {
     type tls
     tls OR-certs-anp
     secret secret
-    server {
-        name tmobile_server
-        host aaa.geo.t-mobile.com:2083
-        type tls
-    }
+    server tmobile-server
+    accountingServer tmobile-accounting-server
 }
 
 realm * { 
