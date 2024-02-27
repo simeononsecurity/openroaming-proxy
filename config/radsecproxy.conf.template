@@ -19,6 +19,22 @@ server OR-dynamic {
     dynamicLookupCommand ${RADSECPROXY_DIR}/naptr-openroaming.sh
 }
 
+realm "orion.area120.com" {
+    type tls
+    tls OR-certs-anp
+    secret radsec
+    server {
+        name server1
+        host 216.239.32.91:2083
+        type tls
+    }
+    server {
+        name server2
+        host 216.239.34.91:2083
+        type tls
+    }
+}
+
 realm * { 
     server OR-dynamic
     accountingServer OR-dynamic
