@@ -5,6 +5,16 @@ LogLevel		5
 LogDestination file:///dev/stdout
 
 ######
+
+tls OR-certs-anp {
+    #CACertificatePath ${PKI_DIR}/
+    CACertificateFile ${PKI_DIR}/ca.crt
+    CertificateFile   ${PKI_DIR}/client.chain.crt
+    CertificateKeyFile ${PKI_DIR}/client.key
+    TLSVersion TLS1_2:
+}
+
+######
 #tls OR-certs-orion {
 #    CACertificatePath ${PKI_DIR}/
 #    CACertificateFile ${PKI_DIR}/orion-ca.crt
@@ -72,14 +82,6 @@ realm ".*\wlan\.mnc210\.mcc310\.3gppnetwork\.org" {
 
 ######
 ######
-
-tls OR-certs-anp {
-    #CACertificatePath ${PKI_DIR}/
-    CACertificateFile ${PKI_DIR}/ca.crt
-    CertificateFile   ${PKI_DIR}/client.chain.crt
-    CertificateKeyFile ${PKI_DIR}/client.key
-    TLSVersion TLS1_2:
-}
 
 server OR-dynamic {
     type tls
