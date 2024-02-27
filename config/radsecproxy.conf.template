@@ -39,7 +39,7 @@ server orion-server2 {
     host 216.239.34.91:2083
 }
 
-realm "/@.*\.orion\.area120\.com" {
+realm /@.*\.orion\.area120\.com$/ {
     server orion-server1
     server orion-server2
     accountingServer orion-server1
@@ -65,17 +65,17 @@ server tmobile-server {
     host aaa.geo.t-mobile.com:2083
 }
 
-realm "/@.*\wlan\.mnc240\.mcc310\.3gppnetwork\.org" {
+realm /@.*\wlan\.mnc240\.mcc310\.3gppnetwork\.org$/ {
     server tmobile-server
     accountingServer tmobile-server
 }
 
-realm "/@.*\wlan\.mnc260\.mcc310\.3gppnetwork\.org" {
+realm /@.*\wlan\.mnc260\.mcc310\.3gppnetwork\.org$/ {
     server tmobile-server
     accountingServer tmobile-server
 }
 
-realm "/@.*\wlan\.mnc210\.mcc310\.3gppnetwork\.org" {
+realm /@.*\wlan\.mnc210\.mcc310\.3gppnetwork\.org$/ {
     server tmobile-server
     accountingServer tmobile-server
 }
