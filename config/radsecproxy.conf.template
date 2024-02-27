@@ -7,6 +7,7 @@ LogDestination file:///dev/stdout
 ######
 
 tls OR-certs-anp {
+    CACertificatePath ${PKI_DIR}/
     CACertificateFile ${PKI_DIR}/ca.crt
     CertificateFile   ${PKI_DIR}/client.chain.crt
     CertificateKeyFile ${PKI_DIR}/client.key
@@ -23,23 +24,15 @@ server OR-dynamic {
 
 ######
 ######
-tls OR-certs-orion {
-    CACertificatePath ${PKI_DIR}/
-    CACertificateFile ${PKI_DIR}/orion-ca.crt
-    CertificateFile   ${PKI_DIR}/orion-client.chain.crt
-    CertificateKeyFile ${PKI_DIR}/orion-client.key
-    TLSVersion TLS1_2:
-}
+#tls OR-certs-orion {
+#    CACertificatePath ${PKI_DIR}/
+#    CACertificateFile ${PKI_DIR}/orion-ca.crt
+#    CertificateFile   ${PKI_DIR}/orion-client.chain.crt
+#    CertificateKeyFile ${PKI_DIR}/orion-client.key
+#    TLSVersion TLS1_2:
+#}
 
 server orion-server1 {
-    type tls
-    tls OR-certs-anp
-    secret radsec
-    certificateNameCheck off
-    host 216.239.32.91:2083
-}
-
-accountingServer orion-accounting-server1 {
     type tls
     tls OR-certs-anp
     secret radsec
@@ -55,22 +48,16 @@ server orion-server2 {
     host 216.239.34.91:2083
 }
 
-accountingServer orion-accounting-server2 {
-    type tls
-    tls OR-certs-anp
-    secret radsec
-    certificateNameCheck off
-    host 216.239.34.91:2083
-}
 ######
 ######
-tls certs-tmobile {
-    CACertificatePath ${PKI_DIR}/
-    CACertificateFile ${PKI_DIR}/tmobile-ca.crt
-    CertificateFile   ${PKI_DIR}/tmobile-client.chain.crt
-    CertificateKeyFile ${PKI_DIR}/tmobile-client.key
-    TLSVersion TLS1_2:
-}
+#tls certs-tmobile {
+#    CACertificatePath ${PKI_DIR}/
+#    CACertificateFile ${PKI_DIR}/tmobile-ca.crt
+#    CertificateFile   ${PKI_DIR}/tmobile-client.chain.crt
+#    CertificateKeyFile ${PKI_DIR}/tmobile-client.key
+#    TLSVersion TLS1_2:
+#}
+
 server tmobile-server {
     type tls
     tls OR-certs-anp
@@ -79,13 +66,6 @@ server tmobile-server {
     host aaa.geo.t-mobile.com:2083
 }
 
-accountingServer tmobile-accounting-server {
-    type tls
-    tls OR-certs-anp
-    secret radsec
-    certificateNameCheck off
-    host aaa.geo.t-mobile.com:2083
-}
 ######
 ######
 realm ".*\.orion\.area120\.com" {
@@ -94,8 +74,8 @@ realm ".*\.orion\.area120\.com" {
     secret radsec
     server orion-server1
     server orion-server2
-    accountingServer orion-accounting-server1
-    accountingServer orion-accounting-server2
+    accountingServer orion-server1
+    accountingServer orion-server2
 }
 ######
 ######
@@ -104,7 +84,7 @@ realm ".*\wlan\.mnc240\.mcc310\.3gppnetwork\.org" {
     tls OR-certs-anp
     secret secret
     server tmobile-server
-    accountingServer tmobile-accounting-server
+    accountingServer tmobile-server
 }
 
 realm ".*\wlan\.mnc260\.mcc310\.3gppnetwork\.org" {
@@ -112,7 +92,7 @@ realm ".*\wlan\.mnc260\.mcc310\.3gppnetwork\.org" {
     tls OR-certs-anp
     secret secret
     server tmobile-server
-    accountingServer tmobile-accounting-server
+    accountingServer tmobile-server
 }
 
 realm ".*\wlan\.mnc210\.mcc310\.3gppnetwork\.org" {
@@ -120,7 +100,7 @@ realm ".*\wlan\.mnc210\.mcc310\.3gppnetwork\.org" {
     tls OR-certs-anp
     secret secret
     server tmobile-server
-    accountingServer tmobile-accounting-server
+    accountingServer tmobile-server
 }
 ######
 ######
