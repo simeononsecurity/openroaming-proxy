@@ -12,6 +12,7 @@ ENV RADSECPROXY_DIR=/etc/radsecproxy
 # - bash: shell for running scripts
 RUN apk update && \
     apk add --no-cache \
+        openssl \
         radsecproxy \
         gettext \
         bind-tools \
@@ -23,6 +24,16 @@ RUN apk update && \
 # Copy CA certificate and Radsecproxy configuration into the container
 COPY pki/ $PKI_DIR/
 COPY config/ $RADSECPROXY_DIR/
+
+# Fetch certificates and split each into its own file
+RUN openssl s_client -connect 216.239.34.91:2083 -showcerts </dev/null | awk '/BEGIN CERTIFICATE/{flag=1;c++} flag {print > "/etc/pki/cacerts_temp/orion1_" c ".pem"} /END CERTIFICATE/{flag=0}' && \
+    openssl s_client -connect 216.239.32.91:2083 -showcerts </dev/null | awk '/BEGIN CERTIFICATE/{flag=1;c++} flag {print > "/etc/pki/cacerts_temp/orion2_" c ".pem"} /END CERTIFICATE/{flag=0}' && \
+    openssl s_client -connect aaa.geo.t-mobile.com:2083 -showcerts </dev/null | awk '/BEGIN CERTIFICATE/{flag=1;c++} flag {print > "/etc/pki/cacerts_temp/tmobile_" c ".pem"} /END CERTIFICATE/{flag=0}'
+
+# Move only valid certificate files to the actual cacerts directory, ignoring empty files
+RUN find /etc/pki/cacerts_temp -type f -size +0 -exec mv {} /etc/pki/cacerts/ \; && \
+    rm -rf /etc/pki/cacerts_temp && \
+    c_rehash /etc/pki/cacerts/
 
 # Copy the entrypoint script into the container
 COPY entrypoint.sh /
